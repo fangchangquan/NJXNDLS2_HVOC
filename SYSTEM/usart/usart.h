@@ -18,11 +18,11 @@
 #define TX_BUF_SIZE3         9//D_NO2
 #define RX_BUF_SIZE3         9
 
-#define TX_BUF_SIZE4         5
-#define RX_BUF_SIZE4         56
+#define TX_BUF_SIZE4         9
+#define RX_BUF_SIZE4         9
 
-#define TX_BUF_SIZE5         2
-#define RX_BUF_SIZE5         6
+#define TX_BUF_SIZE5         5
+#define RX_BUF_SIZE5         56
 
 #define TX_BUF_SIZE6         8
 #define RX_BUF_SIZE6         7
@@ -133,7 +133,6 @@ void Uart2_Put_Word(u8 word[],u8 num);
 
 void Uart3_Putchar(u8 ch);
 void Uart3_Put_Word(uchar word[],u8 num);
-void USART3_Receive_Message_Process(void);
 
 void Uart4_Putchar(u8 ch);
 void Uart4_Put_Word(uchar word[],u8 num);

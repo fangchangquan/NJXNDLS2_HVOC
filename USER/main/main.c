@@ -20,11 +20,12 @@
 #include "key.h"
 #include "iwdg.h"
 #include "digit_no2.h"
+#include "digit_o3.h"
 #include "fan_cmd.h"
 
 
-static int plc_cmd_count = 0;
-static int iwdg_count_reload = 0; 
+//static int plc_cmd_count = 0;
+//static int iwdg_count_reload = 0; 
 static int sensor_send_cmd_fan_count = 0;
 //===============================================================
 /*********************************************************************************
@@ -83,7 +84,7 @@ void T50ms_Control(void)
 		  t_flag.t50ms_flag=0;
       
 		  //Get_Tmp_Vol_O3_NO2_SO2_Data();	
-		  Usart6_Receive_Fan_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE_TO_FAN, rs485.rs485_rx_copy_buf1);
+		  Usart6_Receive_Fan_Data_Process(rs485.rs485_rx_buf6,RX_BUF_SIZE_TO_FAN, rs485.rs485_rx_copy_buf6);
 	 }	 
 }
 //===============================================================
@@ -114,7 +115,6 @@ void T100ms_Control(void)
 			 {
 				 	sensor_send_cmd_fan_count = 0;
 				  rs485.rx_ok_flag1=0;
-				  rs485.rx_ok_flag_really = 1;
 			 }
 		 }
 		 
@@ -140,11 +140,10 @@ void T200ms_Control(void)
 		 
 		  Get_Press_Value();
 		 
-		  Get_Humidity_Value();		 
+		  Get_Humidity_Value();	
 		 
 			Usart1_Send_To_PLC_Process(rs485.rs485_tx_buf1,sensor.sen_buf_length);
-	
-	 }	 
+		}			
 }
 //===============================================================
 /*********************************************************************************
@@ -190,14 +189,16 @@ void T1s_Control(void)
 		  t_flag.t1s_flag=0;
 
 		  VOC_Receive_Data_Process();
-		  D_NO2_Data_Process();
+		  
 		  Send_Measure_Cmd(rs485.rs485_tx_buf5,0x07,TX_BUF_SIZE5);
 		 
 		  PM_Receive_Data_Process();
 		 
+		  
+		 
 		  Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
 
-
+			
 		 Get_Tmp_Vol_O3_NO2_SO2_Data();	
 		 
  		  //O3_Data_Process();
@@ -213,6 +214,8 @@ void T1_5s_Control(void)//1.2S
 	if(t_flag.t1_5s_flag == 1)
 	{
 		t_flag.t1_5s_flag = 0;
+		D_NO2_Data_Process();
+		D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令 
 	}
 }
 //===============================================================
@@ -229,9 +232,8 @@ void T5s_Control(void)
 	 if(t_flag.t5s_flag==1)
 	 {
 		  t_flag.t5s_flag=0;
-		 VOC_Send_Initiative_To_Passive(rs485.rs485_tx_buf2,TX_BUF_SIZE2);//主动转被动
-		 D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令
-		 //VOC_Send_Cmd(rs485.rs485_tx_buf2,TX_BUF_SIZE2);//查询VOC数据  		 
+		 //VOC_Send_Initiative_To_Passive(rs485.rs485_tx_buf2,TX_BUF_SIZE2);//主动转被动
+//		 D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令 
 	 }	 
 }
 
@@ -304,11 +306,13 @@ void System_Init(void)
 	Delay_Ms(500);
 	Bmp280_Init();
 	
-	PM_Sensor_Init();
+	//PM_Sensor_Init();
 	
 	//IWDG_Init();
 	
-  Motor_Init();
+  //Motor_Init();
+	
+//	D_NO2_driving_mode(rs485.rs485_tx_buf3,TX_BUF_SIZE3);
 	
   
   //IWDG_Init(IWDG_Prescaler_128,3125);//5S
@@ -343,20 +347,17 @@ int main(void)
 	while(1)
 	{
 		
-		 T1ms_Control();
-	   T10ms_Control();
-		 T50ms_Control();
-     T100ms_Control();
-		 T200ms_Control();
-	   T500ms_Control();
-	   T1s_Control();
+//		 T1ms_Control();
+//	   T10ms_Control();
+//		 T50ms_Control();
+//     T100ms_Control();
+//		 T200ms_Control();
+//	   T500ms_Control();
+//	   T1s_Control();
 		 T1_5s_Control();
-		 T5s_Control();
+		// T5s_Control();
 		 
 	}
-	
-	
-	
 	
 	
 }

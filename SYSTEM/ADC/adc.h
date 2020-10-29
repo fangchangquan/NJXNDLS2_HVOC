@@ -15,9 +15,13 @@
 
 #define PM_SIZE             56
 
-#define VOC_SIZE            9
+#define VOC_SIZE            4
 
 #define D_NO2_SIZE          9//数字式NO2传感器
+
+#define D_O3_SIZE 					9//数字式O3传感器
+
+#define D_SO2_SIZE 					9//数字式SO2传感器
 
 #define MAX_VOL				      3300    //MV
 #define MIN_VOL				      100    //13.5-13.8V
@@ -81,6 +85,7 @@ typedef struct
 	 
 	 struct o3def
 	 {
+		  u8	 o3_buf[D_O3_SIZE];
 	    u16  o3_dat;
 	    u16  o3_now;
 		  u16  o3_ppm;

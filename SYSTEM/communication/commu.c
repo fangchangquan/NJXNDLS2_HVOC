@@ -280,7 +280,7 @@ void Usart1_Receive_PLC_Data_Process(uchar *buf,uchar length,uchar *dest_buf)
 {
 	 //uchar sum=0;
 	
-   if(rs485.rx_ok_flag_really==1)
+   if(rs485.rx_ok_flag_really==1)//串口1接受完数据
 	 {
 		  memcpy(dest_buf,buf,length);
 		  memset(buf,0,length);
@@ -294,7 +294,7 @@ void Usart1_Receive_PLC_Data_Process(uchar *buf,uchar length,uchar *dest_buf)
 				 {
 					 flag.usart1_success_flag=1;
 					
-					 rs485.rx_ok_flag_really=0;
+					rs485.rx_ok_flag_really=0;
 				 
 					 pc_to_sensor.dev_addr=dest_buf[0];
 					 pc_to_sensor.code=dest_buf[1];
@@ -522,7 +522,7 @@ void Usart1_Send_To_PLC_Process(uchar *buf ,uchar length)
 		  Data_Copy_Dest(&sensor_to_pc,buf,pc_to_sensor.num);
 		 
 	    Uart1_Put_Word(buf,length);
-			rs485.iwdg_count_flag = 1;
+			//rs485.iwdg_count_flag = 1;
 	 }
 	
 }

@@ -262,7 +262,11 @@ if(TIM_GetITStatus(TIM2,TIM_IT_Update)!=RESET)
 		
 		//rs485_tx_buf2[TX_BUF_SIZE2]
 		VOC_Receive_Process(rs485.rs485_rx_buf2,RX_BUF_SIZE2);//voc接受数据
-		D_NO2_Recieve_Data(rs485.rs485_rx_buf3,RX_BUF_SIZE3);//D_NO2接受数据
+		if(rs485.rx_ok_flag3==1)
+		{
+			rs485.rx_ok_flag3=0;
+			D_NO2_Recieve_Data(rs485.rs485_rx_buf3,RX_BUF_SIZE3);//D_NO2接受数据
+		}
 		
 		PM_Receive_Process(rs485.rs485_rx_buf5,RX_BUF_SIZE5);
 		

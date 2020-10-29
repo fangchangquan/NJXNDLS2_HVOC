@@ -5,7 +5,7 @@
 #include "key.h"
 #include "iwdg.h"
 
-static uint32 plc_count=0;
+//static uint32 plc_count=0;
 /*
 * 注：
 * 串口1没引出，不使用
@@ -204,7 +204,7 @@ void My_Usart3_Init(u32 bound)//数字式NO2气体传感器
 	USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
 	
   NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=3;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=2;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority =3;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
@@ -386,12 +386,12 @@ void My_Usart6_Init(u32 bound)
 *********************************************************************************/
 void USART_Initial(void)
 {
-	 My_Usart1_Init(19200);//485_1
-   My_Usart2_Init(9600);//VOC
+//	 My_Usart1_Init(19200);//485_1
+//   My_Usart2_Init(9600);//VOC
 	 My_Usart3_Init(9600);//数字式NO2气体传感器
-   My_Usart4_Init(9600);//保留
-   My_Usart5_Init(9600);//颗粒物传感器
-   My_Usart6_Init(19200);//485_2
+//   My_Usart4_Init(9600);//数字式O3气体传感器
+//   My_Usart5_Init(9600);//颗粒物传感器
+//   My_Usart6_Init(19200);//485_2
 	
 	 RS485_DE1=IN;//OUT;
 	 RS485_DE2=IN;//out
@@ -467,6 +467,7 @@ void USART1_IRQHandler(void)
 			     {
 				      rs485.rx_ptr1=0;
 							rs485.rx_ok_flag1=1;//rx_fan_ok_flag1   
+						  rs485.rx_ok_flag_really=1;
 					 }	
 					 if(rs485.rx_ptr1>=2)//添加多次判断，防止读命令“03”，对拨码开关为03的板子造成干扰。
 					 {
@@ -588,7 +589,7 @@ void Uart3_Put_Word(uchar word[],u8 num)
 	for(i=0;i<num;i++)
 	{
 		Uart3_Putchar(word[i]);
-		delay_us(300);
+		delay_us(100);
 	}
 }
 //===============================================================
@@ -607,19 +608,17 @@ void USART3_IRQHandler(void)
        USART_ClearFlag(USART3,USART_FLAG_RXNE);  
        USART_ClearITPendingBit(USART3,USART_IT_RXNE); //清除中断标志.
 		
-		   rs485.rs485_rx_buf3[rs485.rx_ptr3]=USART_ReceiveData(USART3);//USART6->DR;
+		   rs485.rs485_rx_buf3[rs485.rx_ptr3]=USART_ReceiveData(USART3);//USART3->DR;
 
-			if(rs485.rs485_rx_buf3[0]==0xff)
-			 {
-			    rs485.rx_ptr3++;	
-       
-          if(rs485.rx_ptr3>=RX_BUF_SIZE3)
-			    {
-				     rs485.rx_ptr3=0;
-				   
-            rs485.rx_ok_flag3=1;
-			    }
-		   }
+			 rs485.rx_ptr3++;
+			
+				if(rs485.rx_ptr3>=RX_BUF_SIZE3)//RX_BUF_SIZE3
+				{
+					 rs485.rx_ptr3=0;
+				 
+					rs485.rx_ok_flag3=1;
+				}
+//		   }
 		}			   
 
 }
@@ -682,7 +681,7 @@ void UART4_IRQHandler(void)
 		
 		   rs485.rs485_rx_buf4[rs485.rx_ptr4]=USART_ReceiveData(UART4);//USART6->DR;
 	
-			 if(rs485.rs485_rx_buf4[0]==0x16)
+			 if(rs485.rs485_rx_buf4[0]==0xff)
 			 {
 			    rs485.rx_ptr4++;			
           if(rs485.rx_ptr4>=RX_BUF_SIZE4)
@@ -832,17 +831,8 @@ void USART6_IRQHandler(void)
 					 
 						rs485.rx_ok_flag6=1;              
 				 }	
-				 if(rs485.rx_ptr6>=2)//添加多次判断，防止读命令“03”，对拨码开关为03的板子造成干扰。
-				 {
-						if(rs485.rs485_rx_buf6[1] == 0x00)
-						{
-						  rs485.rx_ptr6=0;
-						}
-				 }
 				 
 			 }  
-			 
-			
    }
 
 }	 

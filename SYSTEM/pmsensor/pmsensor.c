@@ -45,7 +45,7 @@ u8 Sum_Check(uchar *buf,uchar n)
 ** 输出参数：无
 ** 备    注：无
 *********************************************************************************/
-void PM_Receive_Process(uchar *buf,uchar n)//UART4
+void PM_Receive_Process(uchar *buf,uchar n)//UART5
 {
 	 uchar pm_cmd=0;
  

@@ -83,7 +83,7 @@ key_value=(uchar)temp1;
 void Key_Scan(void)
 {
 Scan();
-key_code=key_value;
+key_code=(uchar)((~key_value)&0xf);
 }
 
 //===============================================================

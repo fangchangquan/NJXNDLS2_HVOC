@@ -158,282 +158,69 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F4xx_512 -FS08000000 -FL080000 -FP0($$Device:STM32F407VETx$CMSIS\Flash\STM32F4xx_512.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>606</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134224220</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\SYSTEM\usart\usart.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\NJXNCGQKZQ\../SYSTEM/usart/usart.c\606</Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>t_flag.t1m_flag</ItemText>
+          <ItemText>rs485.rs485_rx_buf6</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>flag.pulse_count_flag</ItemText>
+          <ItemText>rs485.rx_ptr6</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>flag.count_finish_flag</ItemText>
+          <ItemText>rs485.rs485_rx_buf1</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>pulse_count,0x0A</ItemText>
+          <ItemText>sensor.pm.pm2_now</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>motor,0x0A</ItemText>
+          <ItemText>rs485.rs485_rx_buf5</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>t_temp,0x0A</ItemText>
+          <ItemText>pm_buffer</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sensor,0x0A</ItemText>
+          <ItemText>rs485.rs485_rx_buf3[0]</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ADC_ConverValue</ItemText>
+          <ItemText>rs485.rs485_rx_buf3</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ADC_value1,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>9</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>ADC_value2,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>10</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>DMA_InitStruct</ItemText>
-        </Ww>
-        <Ww>
-          <count>11</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>ADC_value3,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>12</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sum,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>13</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>temp_group</ItemText>
-        </Ww>
-        <Ww>
-          <count>14</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>ADC_value4,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>15</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>ADC_value5,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>16</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>ADC_value6,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>17</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>vol.vol_now,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>18</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>vol,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>19</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>val,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>20</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sdat3,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>21</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>rs485.rs485_rx_buf4[rs485.rx_ptr4],0x10</ItemText>
-        </Ww>
-        <Ww>
-          <count>22</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>rs485.rs485_rx_buf4[0]</ItemText>
-        </Ww>
-        <Ww>
-          <count>23</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>rs485.rs485_rx_buf4</ItemText>
-        </Ww>
-        <Ww>
-          <count>24</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.o3.o3_now,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>25</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.o3.o3_ppm,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>26</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.temp_now,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>27</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>o3_tmp,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>28</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.o3.o3_ug,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>29</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.so2.so2_now,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>30</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.so2.so2_ppm,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>31</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.so2.so2_ug,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>32</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>so2_tmp,0x10</ItemText>
-        </Ww>
-        <Ww>
-          <count>33</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.so2.so2_dat,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>34</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.temp_now</ItemText>
-        </Ww>
-        <Ww>
-          <count>35</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.tem.temperature</ItemText>
-        </Ww>
-        <Ww>
-          <count>36</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.tem.tem_now,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>37</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>temp,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>38</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>so2_tmp</ItemText>
-        </Ww>
-        <Ww>
-          <count>39</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>data_queue,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>40</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>queue_front</ItemText>
-        </Ww>
-        <Ww>
-          <count>41</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>queue_rear</ItemText>
-        </Ww>
-        <Ww>
-          <count>42</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.no2.no2_dat,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>43</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>data_queue_no2</ItemText>
-        </Ww>
-        <Ww>
-          <count>44</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sensor.o3.o3_dat,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>45</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>data_queue_o3</ItemText>
-        </Ww>
-        <Ww>
-          <count>46</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>buf-&gt;dev_addr</ItemText>
-        </Ww>
-        <Ww>
-          <count>47</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>dest_buf[0]</ItemText>
-        </Ww>
-        <Ww>
-          <count>48</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>rs485.rs485_rx_buf1[0]</ItemText>
-        </Ww>
-        <Ww>
-          <count>49</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>rs485.rx_ptr1</ItemText>
-        </Ww>
-        <Ww>
-          <count>50</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>fan_to_sensor.value_7</ItemText>
-        </Ww>
-        <Ww>
-          <count>51</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>rs485.rs485_rx_buf1</ItemText>
-        </Ww>
-        <Ww>
-          <count>52</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>dest_buf[0]</ItemText>
-        </Ww>
-        <Ww>
-          <count>53</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>flag.usart1_plc_success_flag</ItemText>
-        </Ww>
-        <Ww>
-          <count>54</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>rs485.rs485_rx_buf1[0]</ItemText>
+          <ItemText>rs485.rx_ptr3</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -664,7 +451,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>0</periodic>
-        <aLwin>1</aLwin>
+        <aLwin>0</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
@@ -1052,6 +839,18 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+    <File>
+      <GroupNumber>4</GroupNumber>
+      <FileNumber>27</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\SYSTEM\digit_o3\digit_o3.c</PathWithFileName>
+      <FilenameWithoutPath>digit_o3.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
   </Group>
 
   <Group>
@@ -1062,7 +861,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>27</FileNumber>
+      <FileNumber>28</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1074,7 +873,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>28</FileNumber>
+      <FileNumber>29</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1086,7 +885,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>29</FileNumber>
+      <FileNumber>30</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1098,7 +897,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>30</FileNumber>
+      <FileNumber>31</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1110,7 +909,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>31</FileNumber>
+      <FileNumber>32</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1122,7 +921,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>32</FileNumber>
+      <FileNumber>33</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1134,7 +933,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>33</FileNumber>
+      <FileNumber>34</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1146,7 +945,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>34</FileNumber>
+      <FileNumber>35</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1158,7 +957,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>35</FileNumber>
+      <FileNumber>36</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1170,7 +969,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>36</FileNumber>
+      <FileNumber>37</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1182,7 +981,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>37</FileNumber>
+      <FileNumber>38</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1194,7 +993,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>38</FileNumber>
+      <FileNumber>39</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1206,7 +1005,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>39</FileNumber>
+      <FileNumber>40</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1218,7 +1017,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>40</FileNumber>
+      <FileNumber>41</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1230,7 +1029,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>41</FileNumber>
+      <FileNumber>42</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1242,7 +1041,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>42</FileNumber>
+      <FileNumber>43</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1254,7 +1053,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>43</FileNumber>
+      <FileNumber>44</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1266,7 +1065,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>44</FileNumber>
+      <FileNumber>45</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

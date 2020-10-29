@@ -4,7 +4,7 @@
 
 uchar no2_buffer[D_NO2_SIZE]={0};
 
-uchar SUM_CHECK(uchar buf[],uchar n)
+uchar D_NO2_SUM_CHECK(uchar buf[],uchar n)
 {
 	uchar i=0;
 	u8 sum=0;
@@ -25,7 +25,7 @@ void D_NO2_Recieve_Data(uchar buf[],uchar n)
 	{
 		memcpy(no2_buffer,buf,n);
 		memset(buf,0,n);
-		check_n = SUM_CHECK(no2_buffer,n);//校验
+		check_n = D_NO2_SUM_CHECK(no2_buffer,n);//校验
 	}
 	else
 	{
@@ -67,7 +67,20 @@ void D_NO2_SEND_CMD_TO_SENSOR(uchar buf[],uchar n)
 	Uart3_Put_Word(buf,n);
 }
 
-
+void D_NO2_driving_mode(uchar buf[],uchar n)
+{
+	buf[0] = 0xff;
+	buf[1] = 0x01;
+	buf[2] = 0x78;
+	buf[3] = 0x40;
+	buf[4] = 0x00;
+	buf[5] = 0x00;
+	buf[6] = 0x00;
+	buf[7] = 0x00;
+	buf[8] = 0x47;
+	
+	Uart3_Put_Word(buf,n);
+}
 
 
 
