@@ -205,7 +205,7 @@ if(TIM_GetITStatus(TIM2,TIM_IT_Update)!=RESET)
 	{
      t_flag.t5ms_flag=1;
 		
-		 Get_ADC();	    
+		 //Get_ADC();	    
 	}
 
 	if(t1ms_cnt%10==0)
@@ -260,7 +260,6 @@ if(TIM_GetITStatus(TIM2,TIM_IT_Update)!=RESET)
     		
 		t1s_cnt++;
 		
-		//rs485_tx_buf2[TX_BUF_SIZE2]
 		VOC_Receive_Process(rs485.rs485_rx_buf2,RX_BUF_SIZE2);//voc接受数据
 		if(rs485.rx_ok_flag3==1)
 		{
@@ -268,7 +267,7 @@ if(TIM_GetITStatus(TIM2,TIM_IT_Update)!=RESET)
 			D_NO2_Recieve_Data(rs485.rs485_rx_buf3,RX_BUF_SIZE3);//D_NO2接受数据
 		}
 		
-		PM_Receive_Process(rs485.rs485_rx_buf5,RX_BUF_SIZE5);
+//		PM_Receive_Process(rs485.rs485_rx_buf5,RX_BUF_SIZE5);
 		
 		
 		if(t1s_cnt % 5 ==0)

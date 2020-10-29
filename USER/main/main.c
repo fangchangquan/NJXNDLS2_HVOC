@@ -160,7 +160,7 @@ void T500ms_Control(void)
 	 {
 		  t_flag.t500ms_flag=0;
 	    
-		 Light_Control();
+		  Light_Control();
 		 
 		
 //		 if(rs485.iwdg_count_flag == 1)
@@ -191,21 +191,14 @@ void T1s_Control(void)
 		  VOC_Receive_Data_Process();
 		  
 		  Send_Measure_Cmd(rs485.rs485_tx_buf5,0x07,TX_BUF_SIZE5);
-		 
+
+			PM_Receive_Process(rs485.rs485_rx_buf5,RX_BUF_SIZE5);
 		  PM_Receive_Data_Process();
-		 
-		  
-		 
 		  Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
 
 			
-		 Get_Tmp_Vol_O3_NO2_SO2_Data();	
-		 
- 		  //O3_Data_Process();
-		 
-		  //NO2_Data_Process();
-		 
-		  //SO2_Data_Process();
+		 //Get_Tmp_Vol_O3_NO2_SO2_Data();	
+	
 	 }	 
 }
 
@@ -215,7 +208,6 @@ void T1_5s_Control(void)//1.2S
 	{
 		t_flag.t1_5s_flag = 0;
 		D_NO2_Data_Process();
-		D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令 
 	}
 }
 //===============================================================
@@ -232,8 +224,9 @@ void T5s_Control(void)
 	 if(t_flag.t5s_flag==1)
 	 {
 		  t_flag.t5s_flag=0;
-		 //VOC_Send_Initiative_To_Passive(rs485.rs485_tx_buf2,TX_BUF_SIZE2);//主动转被动
-//		 D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令 
+		 VOC_Send_Initiative_To_Passive(rs485.rs485_tx_buf2,TX_BUF_SIZE2);//主动转被动
+		 D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令 
+		 
 	 }	 
 }
 
@@ -306,7 +299,7 @@ void System_Init(void)
 	Delay_Ms(500);
 	Bmp280_Init();
 	
-	//PM_Sensor_Init();
+	PM_Sensor_Init();
 	
 	//IWDG_Init();
 	
@@ -343,19 +336,19 @@ int main(void)
 	 
 	System_Init();
 	
-		Keynum_Process();
+	Keynum_Process();
 	while(1)
 	{
 		
-//		 T1ms_Control();
-//	   T10ms_Control();
-//		 T50ms_Control();
-//     T100ms_Control();
-//		 T200ms_Control();
-//	   T500ms_Control();
-//	   T1s_Control();
+		 T1ms_Control();
+	   T10ms_Control();
+		 T50ms_Control();
+     T100ms_Control();
+		 T200ms_Control();
+	   T500ms_Control();
+	   T1s_Control();
 		 T1_5s_Control();
-		// T5s_Control();
+		 T5s_Control();
 		 
 	}
 	

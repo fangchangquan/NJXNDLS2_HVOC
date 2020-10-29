@@ -565,16 +565,6 @@
               <FilePath>..\SYSTEM\ADC\adc.c</FilePath>
             </File>
             <File>
-              <FileName>o3sensor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\SYSTEM\o3sensor\o3sensor.c</FilePath>
-            </File>
-            <File>
-              <FileName>so2sensor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\SYSTEM\so2sensor\so2sensor.c</FilePath>
-            </File>
-            <File>
               <FileName>temp.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\temperature\temp.c</FilePath>
@@ -618,11 +608,6 @@
               <FileName>digit_no2.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\digit_no2\digit_no2.c</FilePath>
-            </File>
-            <File>
-              <FileName>no2sensor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\SYSTEM\no2sensor\no2sensor.c</FilePath>
             </File>
             <File>
               <FileName>fan_cmd.c</FileName>

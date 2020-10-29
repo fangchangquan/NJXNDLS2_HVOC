@@ -473,7 +473,7 @@ void Usart1_Send_Data_Process(PC_To_Sensor_Def *buf,Sensor_To_PC_Def *dest_buf)
 		    //Hex_To_Group(sensor.o3.o3_ug,dest_buf->data_buf,14,SENSOR_SIZE);
 		  Hex_To_Group(sensor.so2.so2_now,dest_buf->data_buf,16,SENSOR_SIZE);
 		    //Hex_To_Group(sensor.so2.so2_ug,dest_buf->data_buf,16,SENSOR_SIZE);
-		  Hex_To_Group(sensor.no2.no2_now,dest_buf->data_buf,18,SENSOR_SIZE);
+		  Hex_To_Group(sensor.no2.no2_ug,dest_buf->data_buf,18,SENSOR_SIZE);
 		    //Hex_To_Group(sensor.no2.no2_ug,dest_buf->data_buf,18,SENSOR_SIZE);
 		 
 		  Hex_To_Group(sensor.motor_speed.speed,dest_buf->data_buf,20,SENSOR_SIZE);

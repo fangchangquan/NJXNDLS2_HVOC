@@ -4,6 +4,7 @@
 #include "motor.h"
 #include "key.h"
 #include "iwdg.h"
+#include "light.h"
 
 //static uint32 plc_count=0;
 /*
@@ -224,18 +225,18 @@ void My_Usart4_Init(u32 bound)
 	USART_InitTypeDef USART_InitStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
 	
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC,ENABLE); 
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA,ENABLE); 
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4,ENABLE);
  
-	GPIO_PinAFConfig(GPIOC,GPIO_PinSource10,GPIO_AF_UART4);
-	GPIO_PinAFConfig(GPIOC,GPIO_PinSource11,GPIO_AF_UART4);
+	GPIO_PinAFConfig(GPIOA,GPIO_PinSource0,GPIO_AF_UART4);
+	GPIO_PinAFConfig(GPIOA,GPIO_PinSource1,GPIO_AF_UART4);
 	
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-	GPIO_Init(GPIOC,&GPIO_InitStructure); 
+	GPIO_Init(GPIOA,&GPIO_InitStructure); 
 
 	USART_InitStructure.USART_BaudRate = bound;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
@@ -386,12 +387,12 @@ void My_Usart6_Init(u32 bound)
 *********************************************************************************/
 void USART_Initial(void)
 {
-//	 My_Usart1_Init(19200);//485_1
-//   My_Usart2_Init(9600);//VOC
+	 My_Usart1_Init(19200);//485_1
+   My_Usart2_Init(9600);//VOC
 	 My_Usart3_Init(9600);//数字式NO2气体传感器
-//   My_Usart4_Init(9600);//数字式O3气体传感器
-//   My_Usart5_Init(9600);//颗粒物传感器
-//   My_Usart6_Init(19200);//485_2
+   My_Usart4_Init(9600);//数字式O3气体传感器
+   My_Usart5_Init(9600);//颗粒物传感器
+   My_Usart6_Init(19200);//485_2
 	
 	 RS485_DE1=IN;//OUT;
 	 RS485_DE2=IN;//out
@@ -615,7 +616,6 @@ void USART3_IRQHandler(void)
 				if(rs485.rx_ptr3>=RX_BUF_SIZE3)//RX_BUF_SIZE3
 				{
 					 rs485.rx_ptr3=0;
-				 
 					rs485.rx_ok_flag3=1;
 				}
 //		   }
@@ -752,7 +752,11 @@ void UART5_IRQHandler(void)
 		   rs485.rs485_rx_buf5[rs485.rx_ptr5]=USART_ReceiveData(UART5);//USART6->DR;
 	
 			
-			 rs485.rx_ptr5++;			
+			 rs485.rx_ptr5++;	
+			 if(rs485.rs485_rx_buf5[4] == 0xDA)
+			 {
+				 rs485.rx_ptr5=0;
+			 }				 
        if(rs485.rx_ptr5>=RX_BUF_SIZE5)
 			 {
 				   rs485.rx_ptr5=0;

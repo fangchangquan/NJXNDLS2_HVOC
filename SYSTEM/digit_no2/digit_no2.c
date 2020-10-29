@@ -8,7 +8,7 @@ uchar D_NO2_SUM_CHECK(uchar buf[],uchar n)
 {
 	uchar i=0;
 	u8 sum=0;
-	for(i=1;i<n-2;i++)
+	for(i=1;i<n-1;i++)
 	{
 		sum += buf[i];
 	}

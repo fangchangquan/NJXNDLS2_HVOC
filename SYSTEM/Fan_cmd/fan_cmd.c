@@ -10,12 +10,12 @@ void Usart6_Send_Cmd_To_Fan_7_Speed(uchar buf[] ,uchar length)
 {
 	  buf[0]=0x07;
 	  buf[1]=0x04;
-	  buf[2]=0xD0;
-	  buf[3]=0x10;
+	  buf[2]=0x00;
+	  buf[3]=0x00;
 		buf[4]=0x00;
 		buf[5]=0x01;
-		buf[6]=0x08;
-		buf[7]=0xA9;
+		buf[6]=0x31;
+		buf[7]=0xAC;
 	
 	  Uart6_Put_Word(buf,length);
 }
@@ -23,12 +23,12 @@ void Usart6_Send_Cmd_To_Fan_8_Speed(uchar buf[] ,uchar length)
 {
 	  buf[0]=0x08;
 	  buf[1]=0x04;
-	  buf[2]=0xD0;
-	  buf[3]=0x10;
+	  buf[2]=0x00;
+	  buf[3]=0x00;
 		buf[4]=0x00;
 		buf[5]=0x01;
-		buf[6]=0x08;
-		buf[7]=0x56;
+		buf[6]=0x31;
+		buf[7]=0x53;
 	
 	  Uart6_Put_Word(buf,length);
 }
@@ -36,16 +36,16 @@ void Usart6_Send_Cmd_To_Fan_9_Speed(uchar buf[] ,uchar length)
 {
 	  buf[0]=0x09;
 	  buf[1]=0x04;
-	  buf[2]=0xD0;
-	  buf[3]=0x10;
+	  buf[2]=0x00;
+	  buf[3]=0x00;
 		buf[4]=0x00;
 		buf[5]=0x01;
-		buf[6]=0x09;
-		buf[7]=0x87;
+		buf[6]=0x30;
+		buf[7]=0x82;
 	
 	  Uart6_Put_Word(buf,length);
 }
-
+/*
 //查询风机状态指令
 void Usart6_Send_Cmd_To_Fan_7_Status(uchar buf[],uchar length)
 {
@@ -127,3 +127,4 @@ void Usart6_Send_Cmd_To_Fan_9_Warning(uchar buf[],uchar length)
 	
 	  Uart6_Put_Word(buf,length);
 }
+*/
