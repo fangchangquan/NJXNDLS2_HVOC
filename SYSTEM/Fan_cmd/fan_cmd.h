@@ -11,9 +11,9 @@ void Usart6_Send_Cmd_To_Fan_7_status(uchar buf[],uchar length);
 void Usart6_Send_Cmd_To_Fan_8_status(uchar buf[],uchar length);
 void Usart6_Send_Cmd_To_Fan_9_status(uchar buf[],uchar length);
 
-void Usart6_Send_Cmd_To_Fan_7_Warning(uchar buf[],uchar length);
-void Usart6_Send_Cmd_To_Fan_8_Warning(uchar buf[],uchar length);
-void Usart6_Send_Cmd_To_Fan_9_Warning(uchar buf[],uchar length);
+void Usart6_Send_Cmd_To_Fan_7_ERR_CODE(uchar buf[],uchar length);
+void Usart6_Send_Cmd_To_Fan_8_ERR_CODE(uchar buf[],uchar length);
+void Usart6_Send_Cmd_To_Fan_9_ERR_CODE(uchar buf[],uchar length);
 
 
 #endif

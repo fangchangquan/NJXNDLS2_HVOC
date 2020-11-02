@@ -15,7 +15,7 @@
 
 #define PM_SIZE             56
 
-#define VOC_SIZE            4
+#define VOC_SIZE            9
 
 #define D_NO2_SIZE          9//数字式NO2传感器
 

@@ -259,8 +259,11 @@ if(TIM_GetITStatus(TIM2,TIM_IT_Update)!=RESET)
 		t_flag.t1s_flag=1;
     		
 		t1s_cnt++;
+		if(rs485.rx_ok_flag2==1)
+		{
+			VOC_Receive_Process(rs485.rs485_rx_buf2,RX_BUF_SIZE2);//voc接受数据
+		}
 		
-		VOC_Receive_Process(rs485.rs485_rx_buf2,RX_BUF_SIZE2);//voc接受数据
 		if(rs485.rx_ok_flag3==1)
 		{
 			rs485.rx_ok_flag3=0;

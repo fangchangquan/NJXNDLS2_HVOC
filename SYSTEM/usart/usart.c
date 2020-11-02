@@ -538,10 +538,9 @@ void USART2_IRQHandler(void)
        USART_ClearFlag(USART2,USART_FLAG_RXNE);  
        USART_ClearITPendingBit(USART2,USART_IT_RXNE); //清除中断标志.
 		
-		   rs485.rs485_rx_buf2[rs485.rx_ptr2]=USART_ReceiveData(USART2);//USART6->DR;
+		   rs485.rs485_rx_buf2[rs485.rx_ptr2]=USART_ReceiveData(USART2);//USART2->DR;
 	
-			 if(rs485.rs485_rx_buf2[0]==0x5f)
-			 {
+			 
 			    rs485.rx_ptr2++;	
        
           if(rs485.rx_ptr2>=RX_BUF_SIZE2)
@@ -549,8 +548,7 @@ void USART2_IRQHandler(void)
 				     rs485.rx_ptr2=0;
 				   
             rs485.rx_ok_flag2=1;
-			    }
-		   }			   
+			    }		   
     }
 
 }

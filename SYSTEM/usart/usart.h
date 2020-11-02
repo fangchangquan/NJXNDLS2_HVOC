@@ -12,8 +12,8 @@
 #define TX_BUF_SIZE1         32
 #define RX_BUF_SIZE1         8
 
-#define TX_BUF_SIZE2         4//VOC
-#define RX_BUF_SIZE2         4
+#define TX_BUF_SIZE2         9//VOC
+#define RX_BUF_SIZE2         9
 
 #define TX_BUF_SIZE3         9//D_NO2
 #define RX_BUF_SIZE3         9

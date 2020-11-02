@@ -190,7 +190,7 @@ void T1s_Control(void)
 
 		  VOC_Receive_Data_Process();
 		  
-		  Send_Measure_Cmd(rs485.rs485_tx_buf5,0x07,TX_BUF_SIZE5);
+		  Send_Measure_Cmd(rs485.rs485_tx_buf5,0x07,TX_BUF_SIZE5);//pm
 
 			PM_Receive_Process(rs485.rs485_rx_buf5,RX_BUF_SIZE5);
 		  PM_Receive_Data_Process();
@@ -224,9 +224,8 @@ void T5s_Control(void)
 	 if(t_flag.t5s_flag==1)
 	 {
 		  t_flag.t5s_flag=0;
-		 VOC_Send_Initiative_To_Passive(rs485.rs485_tx_buf2,TX_BUF_SIZE2);//主动转被动
 		 D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令 
-		 
+		 VOC_Send_Cmd(rs485.rs485_tx_buf2,TX_BUF_SIZE2);//查询VOC数据 
 	 }	 
 }
 
@@ -303,7 +302,7 @@ void System_Init(void)
 	
 	//IWDG_Init();
 	
-  //Motor_Init();
+  Motor_Init();
 	
 //	D_NO2_driving_mode(rs485.rs485_tx_buf3,TX_BUF_SIZE3);
 	
