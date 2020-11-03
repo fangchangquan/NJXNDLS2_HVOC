@@ -20,7 +20,6 @@
 "..\obj\iwdg.o"
 "..\obj\digit_no2.o"
 "..\obj\fan_cmd.o"
-"..\obj\digit_o3.o"
 "..\obj\misc.o"
 "..\obj\stm32f4xx_adc.o"
 "..\obj\stm32f4xx_dma.o"

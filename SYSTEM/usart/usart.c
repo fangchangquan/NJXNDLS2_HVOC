@@ -90,9 +90,9 @@ void My_Usart1_Init(u32 bound)
 	GPIO_Init(GPIOA,&GPIO_InitStructure); 
 	
 	USART_InitStructure.USART_BaudRate = bound;
-	USART_InitStructure.USART_WordLength = USART_WordLength_9b;
+	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
-	USART_InitStructure.USART_Parity = USART_Parity_Even;
+	USART_InitStructure.USART_Parity = USART_Parity_No;
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
   USART_Init(USART1, &USART_InitStructure);
@@ -387,7 +387,7 @@ void My_Usart6_Init(u32 bound)
 *********************************************************************************/
 void USART_Initial(void)
 {
-	 My_Usart1_Init(19200);//485_1
+	 My_Usart1_Init(9600);//485_1
    My_Usart2_Init(9600);//VOC
 	 My_Usart3_Init(9600);//数字式NO2气体传感器
    My_Usart4_Init(9600);//数字式O3气体传感器

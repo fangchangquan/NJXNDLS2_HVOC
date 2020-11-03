@@ -105,13 +105,13 @@ void T100ms_Control(void)
 		 if(rs485.rx_ok_flag1==1)
 		 {
 			 sensor_send_cmd_fan_count++;
-			 if(sensor_send_cmd_fan_count % 4 == 1){Usart6_Send_Cmd_To_Fan_7_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
-			 if(sensor_send_cmd_fan_count % 4 == 2){Usart6_Send_Cmd_To_Fan_8_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
-			 if(sensor_send_cmd_fan_count % 4 == 3)
-			 {
-					Usart6_Send_Cmd_To_Fan_9_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);
-			 }
-			 if(sensor_send_cmd_fan_count % 4 == 0)
+			 if(sensor_send_cmd_fan_count % 7 == 1){Usart6_Send_Cmd_To_Fan_7_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
+			 if(sensor_send_cmd_fan_count % 7 == 2){Usart6_Send_Cmd_To_Fan_8_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
+			 if(sensor_send_cmd_fan_count % 7 == 3){Usart6_Send_Cmd_To_Fan_9_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
+			 if(sensor_send_cmd_fan_count % 7 == 4){Usart6_Send_Cmd_To_Fan_7_ERR_CODE(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
+			 if(sensor_send_cmd_fan_count % 7 == 5){Usart6_Send_Cmd_To_Fan_8_ERR_CODE(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
+			 if(sensor_send_cmd_fan_count % 7 == 6){Usart6_Send_Cmd_To_Fan_9_ERR_CODE(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
+			 if(sensor_send_cmd_fan_count % 7 == 0)
 			 {
 				 	sensor_send_cmd_fan_count = 0;
 				  rs485.rx_ok_flag1=0;
@@ -188,7 +188,7 @@ void T1s_Control(void)
 	 {
 		  t_flag.t1s_flag=0;
 
-		  VOC_Receive_Data_Process();
+		  
 		  
 		  Send_Measure_Cmd(rs485.rs485_tx_buf5,0x07,TX_BUF_SIZE5);//pm
 
@@ -207,6 +207,7 @@ void T1_5s_Control(void)//1.2S
 	if(t_flag.t1_5s_flag == 1)
 	{
 		t_flag.t1_5s_flag = 0;
+		VOC_Receive_Data_Process();
 		D_NO2_Data_Process();
 	}
 }
