@@ -522,7 +522,7 @@ void Usart1_Send_To_PLC_Process(uchar *buf ,uchar length)
 		  Data_Copy_Dest(&sensor_to_pc,buf,pc_to_sensor.num);
 		 
 	    Uart1_Put_Word(buf,length);
-			//rs485.iwdg_count_flag = 1;
+		 rs485.iwdg_count_flag = 1;//每发送一次，置位一次
 	 }
 	
 }

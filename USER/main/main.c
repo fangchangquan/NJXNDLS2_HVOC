@@ -25,7 +25,7 @@
 
 
 //static int plc_cmd_count = 0;
-//static int iwdg_count_reload = 0; 
+static int iwdg_count_reload = 0; 
 static int sensor_send_cmd_fan_count = 0;
 //===============================================================
 /*********************************************************************************
@@ -63,7 +63,7 @@ void T10ms_Control(void)
 
 		  Motor_Speed_Process();		 
 
-     // Keynum_Process();不持续执行
+      Keynum_Process();//不持续执行
 	 }	
 }
 
@@ -105,13 +105,13 @@ void T100ms_Control(void)
 		 if(rs485.rx_ok_flag1==1)
 		 {
 			 sensor_send_cmd_fan_count++;
-			 if(sensor_send_cmd_fan_count % 7 == 1){Usart6_Send_Cmd_To_Fan_7_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
-			 if(sensor_send_cmd_fan_count % 7 == 2){Usart6_Send_Cmd_To_Fan_8_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
-			 if(sensor_send_cmd_fan_count % 7 == 3){Usart6_Send_Cmd_To_Fan_9_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
-			 if(sensor_send_cmd_fan_count % 7 == 4){Usart6_Send_Cmd_To_Fan_7_ERR_CODE(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
-			 if(sensor_send_cmd_fan_count % 7 == 5){Usart6_Send_Cmd_To_Fan_8_ERR_CODE(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
-			 if(sensor_send_cmd_fan_count % 7 == 6){Usart6_Send_Cmd_To_Fan_9_ERR_CODE(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
-			 if(sensor_send_cmd_fan_count % 7 == 0)
+			 if(sensor_send_cmd_fan_count % 4 == 1){Usart6_Send_Cmd_To_Fan_7_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
+			 if(sensor_send_cmd_fan_count % 4 == 2){Usart6_Send_Cmd_To_Fan_8_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
+			 if(sensor_send_cmd_fan_count % 4 == 3){Usart6_Send_Cmd_To_Fan_9_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
+//			 if(sensor_send_cmd_fan_count % 7 == 4){Usart6_Send_Cmd_To_Fan_7_ERR_CODE(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
+//			 if(sensor_send_cmd_fan_count % 7 == 5){Usart6_Send_Cmd_To_Fan_8_ERR_CODE(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
+//			 if(sensor_send_cmd_fan_count % 7 == 6){Usart6_Send_Cmd_To_Fan_9_ERR_CODE(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
+			 if(sensor_send_cmd_fan_count % 4 == 0)
 			 {
 				 	sensor_send_cmd_fan_count = 0;
 				  rs485.rx_ok_flag1=0;
@@ -163,11 +163,11 @@ void T500ms_Control(void)
 		  Light_Control();
 		 
 		
-//		 if(rs485.iwdg_count_flag == 1)
-//			{
-//				rs485.iwdg_count_flag = 0;
-//				iwdg_count_reload = 0;
-//			}
+		 if(rs485.iwdg_count_flag == 1)
+			{
+				rs485.iwdg_count_flag = 0;
+				iwdg_count_reload = 0;
+			}
 		 
 	 }	 
 }
@@ -227,6 +227,11 @@ void T5s_Control(void)
 		  t_flag.t5s_flag=0;
 		 D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令 
 		 VOC_Send_Cmd(rs485.rs485_tx_buf2,TX_BUF_SIZE2);//查询VOC数据 
+		 if(iwdg_count_reload<12)//5s钟喂狗一次，超过70s，标志位没清零，则重启（每发送一次数据，标志位清零一次）
+			{
+				iwdg_count_reload ++;
+				iwdg_feed();
+			}
 	 }	 
 }
 
@@ -301,7 +306,7 @@ void System_Init(void)
 	
 	PM_Sensor_Init();
 	
-	//IWDG_Init();
+	IWDG_Init();
 	
   Motor_Init();
 	
