@@ -156,19 +156,19 @@ uint16 Crc16_Modbus(u8 ptr[],uchar len)
 { 
    uint16 i,j,tmp,CRC16;
 	 uchar  h;
-	 uchar  p[32]={0};
+	 uchar  p[27]={0};
 	 memcpy(p,ptr,len);
 	 
    CRC16=0xffff;
    for (i=0;i<len;i++)
    {  
-      CRC16=CRC16^ptr[i];
+      CRC16=CRC16^p[i];
       for (j=0;j<8;j++)
       {
 
-				if((CRC16&0x0001)!=0)
+				if((CRC16&0x01)!=0)
 				{
-					 CRC16=(CRC16>>1)^0xA001;
+					 CRC16=(CRC16>>1)^0xa001;
 				}
 				else
 				{
@@ -389,7 +389,7 @@ void Hex_To_Group(u16 data,uchar group[],uchar start_n, uchar n)
 void Usart1_Send_Data_Process(PC_To_Sensor_Def *buf,Sensor_To_PC_Def *dest_buf)
 {
 	 u16 addr=0;
-	 uchar group[32]={0};
+	 uchar group[29]={0};
 	 uchar i;
 	 
 	 dest_buf->dev_addr=buf->dev_addr;
@@ -482,19 +482,19 @@ void Usart1_Send_Data_Process(PC_To_Sensor_Def *buf,Sensor_To_PC_Def *dest_buf)
 		 
 		  group[0]=dest_buf->dev_addr;
 			group[1]=dest_buf->code;
-			group[2]=(u8)(dest_buf->reg_addr>>8);
-			group[3]=(u8)dest_buf->reg_addr;
-			group[4]=(u8)(dest_buf->num>>8);
-			group[5]=(u8)dest_buf->num;
+//			group[2]=(u8)(dest_buf->reg_addr>>8);
+//			group[3]=(u8)dest_buf->reg_addr;
+//			group[4]=(u8)(dest_buf->num>>8);
+			group[2]=(u8)dest_buf->num*2;
 			for(i=0;i<24;i++)
 			{
 				
-			  group[i+6]=dest_buf->data_buf[i];
+			  group[i+3]=dest_buf->data_buf[i];
 			}
 
-		  dest_buf->crc=Crc16_Modbus(group,SENSOR_SIZE+6);
+		  dest_buf->crc=Crc16_Modbus(group,SENSOR_SIZE+3);
 		 
-		  sensor.sen_buf_length=SENSOR_SIZE+8;
+		  sensor.sen_buf_length=SENSOR_SIZE+5;
 	 }
 	 
 }
@@ -541,10 +541,10 @@ void Data_Copy_Dest(Sensor_To_PC_Def *s_buf,uchar buf[],uchar length)
 	
 	 buf[0]=s_buf->dev_addr;
 	 buf[1]=s_buf->code;
-	 buf[2]=(uchar)(s_buf->reg_addr>>8);
-	 buf[3]=(uchar)s_buf->reg_addr;
-	 buf[4]=(uchar)(s_buf->num>>8);
-	 buf[5]=(uchar)s_buf->num;
+//	 buf[2]=(uchar)(s_buf->reg_addr>>8);
+//	 buf[3]=(uchar)s_buf->reg_addr;
+//	 buf[4]=(uchar)(s_buf->num>>8);
+	 buf[2]=(uchar)s_buf->num*2;
 	 if(length==1)
 	 {	  
       buf[6]=s_buf->data_buf[0];
@@ -556,11 +556,11 @@ void Data_Copy_Dest(Sensor_To_PC_Def *s_buf,uchar buf[],uchar length)
 	 {
 		  for(i=0;i<24;i++)
 		  {
-			   buf[i+6]=s_buf->data_buf[i];
+			   buf[i+3]=s_buf->data_buf[i];
 			}
 			 
-			buf[30]=(uchar)(s_buf->crc>>8);
-	    buf[31]=(uchar)s_buf->crc;
+			buf[27]=(uchar)(s_buf->crc>>8);
+	    buf[28]=(uchar)s_buf->crc;
 		}
 }
 //===============================================================

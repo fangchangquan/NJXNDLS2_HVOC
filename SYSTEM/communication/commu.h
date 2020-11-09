@@ -89,6 +89,8 @@ void Usart1_Receive_Data_Process(void);
 
 uint16 Crc16_Modbus(u8 ptr[],uchar len);
 
+
+
 u32 Group_TO_Hex(uchar group[],uchar n);
 
 uint32_t Group_TO_Hex_Little_Endian3(uchar str,uchar group[],uchar n);

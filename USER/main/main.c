@@ -142,7 +142,7 @@ void T200ms_Control(void)
 		 
 		  Get_Humidity_Value();	
 		 
-			Usart1_Send_To_PLC_Process(rs485.rs485_tx_buf1,sensor.sen_buf_length);
+			Usart1_Send_To_PLC_Process(rs485.rs485_tx_buf1,29);
 		}			
 }
 //===============================================================
@@ -227,7 +227,7 @@ void T5s_Control(void)
 		  t_flag.t5s_flag=0;
 		 D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令 
 		 VOC_Send_Cmd(rs485.rs485_tx_buf2,TX_BUF_SIZE2);//查询VOC数据 
-		 if(iwdg_count_reload<12)//5s钟喂狗一次，超过70s，标志位没清零，则重启（每发送一次数据，标志位清零一次）
+		 if(iwdg_count_reload<20)//5s钟喂狗一次，超过70s，标志位没清零，则重启（每发送一次数据，标志位清零一次）
 			{
 				iwdg_count_reload ++;
 				iwdg_feed();

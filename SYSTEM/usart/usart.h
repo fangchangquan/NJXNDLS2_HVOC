@@ -9,7 +9,7 @@
 
 #define RX_BUF_SIZE          50
 
-#define TX_BUF_SIZE1         32
+#define TX_BUF_SIZE1         29
 #define RX_BUF_SIZE1         8
 
 #define TX_BUF_SIZE2         9//VOC
