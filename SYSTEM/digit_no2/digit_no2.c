@@ -31,6 +31,7 @@ void D_NO2_Recieve_Data(uchar buf[],uchar n)
 	{
 		return ;
 	}
+	
 	if(no2_buffer[0] == 0xff)
 	{
 		if(check_n == no2_buffer[n-1])

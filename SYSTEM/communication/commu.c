@@ -495,6 +495,7 @@ void Usart1_Send_Data_Process(PC_To_Sensor_Def *buf,Sensor_To_PC_Def *dest_buf)
 		  dest_buf->crc=Crc16_Modbus(group,SENSOR_SIZE+3);
 		 
 		  sensor.sen_buf_length=SENSOR_SIZE+5;
+
 	 }
 	 
 }
@@ -522,6 +523,7 @@ void Usart1_Send_To_PLC_Process(uchar *buf ,uchar length)
 		  Data_Copy_Dest(&sensor_to_pc,buf,pc_to_sensor.num);
 		 
 	    Uart1_Put_Word(buf,length);
+		 
 		 rs485.iwdg_count_flag = 1;//每发送一次，置位一次
 	 }
 	

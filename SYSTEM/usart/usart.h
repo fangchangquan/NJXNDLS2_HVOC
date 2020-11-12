@@ -79,6 +79,7 @@ typedef struct {
 	
   uchar rx_ok_flag1           :1;
 	uchar rx_ok_flag_really     :1;
+	uchar rx_ok_iwdg_flag				:1;
 	uchar rx_ok_flag2           :1;
 	uchar rx_ok_flag3           :1;
 	uchar rx_ok_flag4           :1;
@@ -91,6 +92,8 @@ typedef struct {
 	uchar rx_count_flag         :1;
 	
 	uchar iwdg_count_flag       :1;
+	
+	uchar iwdg_count_flag_2   	:1;
 	
 	
 	uchar rec_complete_flag     :1;

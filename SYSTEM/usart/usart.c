@@ -469,6 +469,8 @@ void USART1_IRQHandler(void)
 				      rs485.rx_ptr1=0;
 							rs485.rx_ok_flag1=1;//rx_fan_ok_flag1   
 						  rs485.rx_ok_flag_really=1;
+						 rs485.rx_ok_iwdg_flag = 1;
+						 
 					 }	
 					 if(rs485.rx_ptr1>=2)//添加多次判断，防止读命令“03”，对拨码开关为03的板子造成干扰。
 					 {

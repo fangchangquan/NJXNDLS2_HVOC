@@ -43,6 +43,11 @@ void T1ms_Control(void)
 	 {
 		  t_flag.t1ms_flag=0;
       
+		 if(rs485.iwdg_count_flag == 1)
+			{
+				rs485.iwdg_count_flag = 0;
+				iwdg_count_reload = 0;
+			}
 		  
 	 }	 
 }
@@ -64,6 +69,20 @@ void T10ms_Control(void)
 		  Motor_Speed_Process();		 
 
       Keynum_Process();//不持续执行
+		 
+		 Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
+		 Usart1_Send_To_PLC_Process(rs485.rs485_tx_buf1,29);
+		 
+		 if(rs485.rx_ok_iwdg_flag == 1)//接受PLC命令时喂狗，若多次未回信号给PLC，则重启
+		 {
+			 rs485.rx_ok_iwdg_flag = 0;
+			 if(iwdg_count_reload<2)
+				{
+					iwdg_count_reload ++;
+					iwdg_feed();
+				}
+			 
+		 }
 	 }	
 }
 
@@ -102,8 +121,11 @@ void T100ms_Control(void)
 	 if(t_flag.t100ms_flag==1)
 	 {
 		 t_flag.t100ms_flag=0;
+		 
 		 if(rs485.rx_ok_flag1==1)
 		 {
+			  
+			 
 			 sensor_send_cmd_fan_count++;
 			 if(sensor_send_cmd_fan_count % 4 == 1){Usart6_Send_Cmd_To_Fan_7_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
 			 if(sensor_send_cmd_fan_count % 4 == 2){Usart6_Send_Cmd_To_Fan_8_Speed(rs485.rs485_tx_buf6,TX_BUF_SIZE6);}
@@ -117,6 +139,7 @@ void T100ms_Control(void)
 				  rs485.rx_ok_flag1=0;
 			 }
 		 }
+		 
 		 
 	 } 	 
 }	 
@@ -141,8 +164,8 @@ void T200ms_Control(void)
 		  Get_Press_Value();
 		 
 		  Get_Humidity_Value();	
+
 		 
-			Usart1_Send_To_PLC_Process(rs485.rs485_tx_buf1,29);
 		}			
 }
 //===============================================================
@@ -163,11 +186,7 @@ void T500ms_Control(void)
 		  Light_Control();
 		 
 		
-		 if(rs485.iwdg_count_flag == 1)
-			{
-				rs485.iwdg_count_flag = 0;
-				iwdg_count_reload = 0;
-			}
+		 
 		 
 	 }	 
 }
@@ -194,10 +213,10 @@ void T1s_Control(void)
 
 			PM_Receive_Process(rs485.rs485_rx_buf5,RX_BUF_SIZE5);
 		  PM_Receive_Data_Process();
-		  Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
+//		  Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
 
 			
-		 //Get_Tmp_Vol_O3_NO2_SO2_Data();	
+
 	
 	 }	 
 }
@@ -209,6 +228,8 @@ void T1_5s_Control(void)//1.2S
 		t_flag.t1_5s_flag = 0;
 		VOC_Receive_Data_Process();
 		D_NO2_Data_Process();
+		
+		
 	}
 }
 //===============================================================
@@ -227,11 +248,7 @@ void T5s_Control(void)
 		  t_flag.t5s_flag=0;
 		 D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令 
 		 VOC_Send_Cmd(rs485.rs485_tx_buf2,TX_BUF_SIZE2);//查询VOC数据 
-		 if(iwdg_count_reload<20)//5s钟喂狗一次，超过70s，标志位没清零，则重启（每发送一次数据，标志位清零一次）
-			{
-				iwdg_count_reload ++;
-				iwdg_feed();
-			}
+		 
 	 }	 
 }
 
