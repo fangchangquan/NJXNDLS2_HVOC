@@ -61,6 +61,7 @@ typedef struct {
 	
 	uchar tx_ptr1;
 	uchar rx_ptr1;
+	uchar rx_plc_ptr_1;
 	uchar tx_ptr2;
 	uchar rx_ptr2;
 	uchar tx_ptr3;

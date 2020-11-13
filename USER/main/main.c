@@ -25,7 +25,8 @@
 
 
 //static int plc_cmd_count = 0;
-static int iwdg_count_reload = 0; 
+static int iwdg_count_reload = 1; 
+static int plc_send_to_sensor_count = 0;
 static int sensor_send_cmd_fan_count = 0;
 //===============================================================
 /*********************************************************************************
@@ -43,12 +44,25 @@ void T1ms_Control(void)
 	 {
 		  t_flag.t1ms_flag=0;
       
-		 if(rs485.iwdg_count_flag == 1)
+		  if(rs485.iwdg_count_flag == 1)
 			{
 				rs485.iwdg_count_flag = 0;
-				iwdg_count_reload = 0;
+				plc_send_to_sensor_count = 0;
 			}
-		  
+			
+			if(rs485.iwdg_count_flag_2 == 1)
+			{
+				rs485.iwdg_count_flag_2=0;
+				plc_send_to_sensor_count ++;
+				if(plc_send_to_sensor_count > 12)
+				 {
+					 iwdg_count_reload=0;
+				 }
+			}
+			
+			// Keynum_Process();//
+//		  Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
+//		  Usart1_Send_To_PLC_Process(rs485.rs485_tx_buf1,29);
 	 }	 
 }
 //===============================================================
@@ -66,23 +80,11 @@ void T10ms_Control(void)
 	 {
 		  t_flag.t10ms_flag=0;
 
-		  Motor_Speed_Process();		 
+		  //Motor_Speed_Process();		 
 
-      Keynum_Process();//不持续执行
-		 
-		 Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
+     Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
 		 Usart1_Send_To_PLC_Process(rs485.rs485_tx_buf1,29);
-		 
-		 if(rs485.rx_ok_iwdg_flag == 1)//接受PLC命令时喂狗，若多次未回信号给PLC，则重启
-		 {
-			 rs485.rx_ok_iwdg_flag = 0;
-			 if(iwdg_count_reload<2)
-				{
-					iwdg_count_reload ++;
-					iwdg_feed();
-				}
-			 
-		 }
+
 	 }	
 }
 
@@ -186,7 +188,10 @@ void T500ms_Control(void)
 		  Light_Control();
 		 
 		
-		 
+		 if(iwdg_count_reload > 0)//若iwdg_count_reload > 0,则喂狗
+		 {
+			 iwdg_feed();
+		 }
 		 
 	 }	 
 }
@@ -207,14 +212,14 @@ void T1s_Control(void)
 	 {
 		  t_flag.t1s_flag=0;
 
-		  
-		  
+  
 		  Send_Measure_Cmd(rs485.rs485_tx_buf5,0x07,TX_BUF_SIZE5);//pm
 
 			PM_Receive_Process(rs485.rs485_rx_buf5,RX_BUF_SIZE5);
 		  PM_Receive_Data_Process();
 //		  Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
-
+			
+		 
 			
 
 	
@@ -226,9 +231,9 @@ void T1_5s_Control(void)//1.2S
 	if(t_flag.t1_5s_flag == 1)
 	{
 		t_flag.t1_5s_flag = 0;
-		VOC_Receive_Data_Process();
-		D_NO2_Data_Process();
 		
+		D_NO2_Data_Process();
+		VOC_Receive_Data_Process();
 		
 	}
 }
@@ -246,9 +251,11 @@ void T5s_Control(void)
 	 if(t_flag.t5s_flag==1)
 	 {
 		  t_flag.t5s_flag=0;
-		 D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令 
+		 D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令  
+
 		 VOC_Send_Cmd(rs485.rs485_tx_buf2,TX_BUF_SIZE2);//查询VOC数据 
 		 
+
 	 }	 
 }
 
@@ -323,7 +330,7 @@ void System_Init(void)
 	
 	PM_Sensor_Init();
 	
-	IWDG_Init();
+	IWDG_Init();//1s
 	
   Motor_Init();
 	

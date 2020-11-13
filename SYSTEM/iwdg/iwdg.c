@@ -1,7 +1,8 @@
 #include "iwdg.h"
 
-#define SK_IWDG_PER             4  //625
-#define SK_IWDG_CNT             8000 // 
+#define SK_IWDG_PER             4  //625     4*8000 =6s
+
+#define SK_IWDG_CNT             600 // 4*1000 = 1850ms  4*500=920ms  4*600 =1000+
 
 
 

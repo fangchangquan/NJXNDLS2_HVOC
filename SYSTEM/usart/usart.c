@@ -102,6 +102,10 @@ void My_Usart1_Init(u32 bound)
 	//USART_ClearFlag(USART1, USART_FLAG_TC);
 	
 	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+	//USART_ITConfig(USART1,USART_IT_PE,ENABLE);
+	USART_ITConfig(USART1,USART_IT_IDLE,ENABLE);
+	USART_ITConfig(USART1,USART_IT_ERR,ENABLE);
+	
 
   NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1;
@@ -453,12 +457,44 @@ void Uart1_Put_Word(u8 word[],u8 num)
 *********************************************************************************/
 void USART1_IRQHandler(void)
 {    
+	
+//		if(USART_GetFlagStatus(USART1, USART_FLAG_PE) != RESET)
+//		{
+//			USART_ReceiveData(USART1);
+//			USART_ClearFlag(USART1, USART_FLAG_PE);
+//		}
+		if (USART_GetFlagStatus(USART1, USART_FLAG_ORE) != RESET)
+    {
+				USART_ReceiveData(USART1);
+				USART_ClearFlag(USART1, USART_FLAG_ORE);
+    }
+		if (USART_GetFlagStatus(USART1, USART_FLAG_FE) != RESET)
+    {
+        USART_ReceiveData(USART1);
+        USART_ClearFlag(USART1, USART_FLAG_FE);
+    }
+		if (USART_GetFlagStatus(USART1, USART_FLAG_NE) != RESET)
+    {
+        USART_ReceiveData(USART1);
+        USART_ClearFlag(USART1, USART_FLAG_NE);
+    }
+		if (USART_GetFlagStatus(USART1, USART_FLAG_IDLE) != RESET)
+    {
+        USART_ReceiveData(USART1);
+        USART_ClearFlag(USART1, USART_FLAG_IDLE);
+    }
+//		if(USART_GetITStatus(USART1,USART_FLAG_ORE)!= RESET)//接收到数据
+//	  {
+//			USART_ClearFlag(USART1, USART_FLAG_ORE);
+//			USART_ClearITPendingBit(USART1,USART_FLAG_ORE);
+//		}
+//	
+		
 	  if(USART_GetITStatus(USART1,USART_IT_RXNE)!= RESET)//接收到数据
 	  {
        USART_ClearFlag(USART1,USART_FLAG_RXNE);  
        USART_ClearITPendingBit(USART1,USART_IT_RXNE); //清除中断标志.
-			
-		
+			 
 		   rs485.rs485_rx_buf1[rs485.rx_ptr1]=USART_ReceiveData(USART1);//USART1->DR;
 			 //iwdg_feed();
 			 if((rs485.rs485_rx_buf1[0]==key.code)&&(key.code!=0))
@@ -467,6 +503,7 @@ void USART1_IRQHandler(void)
           if(rs485.rx_ptr1>=RX_BUF_SIZE1)
 			     {
 				      rs485.rx_ptr1=0;
+						 rs485.rx_plc_ptr_1 = 0;
 							rs485.rx_ok_flag1=1;//rx_fan_ok_flag1   
 						  rs485.rx_ok_flag_really=1;
 						 rs485.rx_ok_iwdg_flag = 1;
@@ -480,6 +517,12 @@ void USART1_IRQHandler(void)
 						  }
 				   }
 		   }
+			 rs485.rx_plc_ptr_1 ++;
+			 if(rs485.rx_plc_ptr_1 >= RX_BUF_SIZE1)
+			 {
+				 rs485.rx_plc_ptr_1 = 0;
+				 rs485.iwdg_count_flag_2 = 1;
+			 }
 	 }  											 
 } 
 
