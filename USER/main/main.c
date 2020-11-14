@@ -106,7 +106,8 @@ void T50ms_Control(void)
 		  t_flag.t50ms_flag=0;
      
 		  //Get_Tmp_Vol_O3_NO2_SO2_Data();	
-		  Usart6_Receive_Fan_Data_Process(rs485.rs485_rx_buf6,RX_BUF_SIZE_TO_FAN, rs485.rs485_rx_copy_buf6);
+//		  Usart6_Receive_Fan_Data_Process(rs485.rs485_rx_buf6,RX_BUF_SIZE_TO_FAN, rs485.rs485_rx_copy_buf6);
+		 USART6_Receive_Fan_Data_Process(rs485.data_queue_usart6,RX_BUF_SIZE_TO_FAN, rs485.rs485_rx_copy_buf6);
 	 }	 
 }
 //===============================================================

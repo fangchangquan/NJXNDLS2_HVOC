@@ -109,6 +109,7 @@ void Usart1_Send_To_PLC_Process(uchar *buf ,uchar length);
 void Data_Copy_Dest(Sensor_To_PC_Def *s_buf,uchar buf[],uchar length);
 
 void USART1_REC_PLC_Process(uchar buf[],uchar dest_buf[]);
+void USART6_Receive_Fan_Data_Process(uchar buf[],uchar length,uchar dest_buf[]);
 
 
 

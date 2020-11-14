@@ -616,3 +616,47 @@ void USART1_REC_PLC_Process(uchar buf[],uchar dest_buf[])
 	}
 	
 }
+
+void USART6_Receive_Fan_Data_Process(uchar buf[],uchar length,uchar dest_buf[])
+{
+	u16 sum=0;
+	u8 i,j,k;
+	for(i=0;i<MAX_DATA_QUEUE_DEPTH2-6;i++)
+	{
+		k=0;
+		for(j=i;j<i+7;j++)
+		{
+			dest_buf[k++] = buf[j];
+		}
+		if(dest_buf[0] == 0x07)
+		{
+			sum = Crc16_Modbus(dest_buf,5);
+			if((dest_buf[5] == (u8)(sum >> 8))&& (dest_buf[6]== (u8)sum))
+			{
+				fan_to_sensor.value_7 = (u16)dest_buf[3];
+				fan_to_sensor.value_7 <<= 8;
+				fan_to_sensor.value_7 |= (u16)dest_buf[4];
+			}
+		}
+		if(dest_buf[0] == 0x08)
+		{
+			sum = Crc16_Modbus(dest_buf,5);
+			if((dest_buf[5] == (u8)(sum >> 8))&& (dest_buf[6]== (u8)sum))
+			{
+				fan_to_sensor.value_8 = (u16)dest_buf[3];
+				fan_to_sensor.value_8 <<= 8;
+				fan_to_sensor.value_8 |= (u16)dest_buf[4];
+			}
+		}
+		if(dest_buf[0] == 0x09)
+		{
+			sum = Crc16_Modbus(dest_buf,5);
+			if((dest_buf[5] == (u8)(sum >> 8))&& (dest_buf[6]== (u8)sum))
+			{
+				fan_to_sensor.value_9 = (u16)dest_buf[3];
+				fan_to_sensor.value_9 <<= 8;
+				fan_to_sensor.value_9 |= (u16)dest_buf[4];
+			}
+		}
+	}
+}
