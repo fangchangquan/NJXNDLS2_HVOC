@@ -100,6 +100,7 @@ typedef struct {
 	  
 	
   uchar usart1_success_flag    :1;
+	uchar usart1_success_reco_flag  :1;
 	
 	uchar usart1_plc_success_flag   :1;
 	

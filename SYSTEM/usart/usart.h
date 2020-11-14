@@ -7,6 +7,10 @@
 #include "stdarg.h"
 #include "stm32F4xx_gpio.h"
 
+#define MAX_DATA_QUEUE_DEPTH 100
+
+#define MAX_DATA_QUEUE_DEPTH2 20
+
 #define RX_BUF_SIZE          50
 
 #define TX_BUF_SIZE1         29
@@ -73,10 +77,21 @@ typedef struct {
 	uchar tx_ptr6;
 	uchar rx_ptr6;
 	
+	uchar queue_front_1;
+	uchar queue_rear_1;
+	uchar queue_front_6;
+	uchar queue_rear_6;
+	
   uint16  tx_data;
 	uint16  rx_data;
 	uchar head1;
 	uchar tail1;
+	
+	//队列
+	uchar data_queue_usart1[MAX_DATA_QUEUE_DEPTH + 1];
+	
+		//队列
+	uchar data_queue_usart6[MAX_DATA_QUEUE_DEPTH2 + 1];
 	
   uchar rx_ok_flag1           :1;
 	uchar rx_ok_flag_really     :1;
@@ -146,6 +161,11 @@ void Uart5_Put_Word(uchar word[],u8 num);
 
 void Uart6_Putchar(u8 ch);
 void Uart6_Put_Word(uchar word[],u8 num);
+
+void enqueue_data_usart1(uchar e);
+void enqueue_data_usart6(uchar e);
+
+
 
 
 #endif

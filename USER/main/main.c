@@ -7,9 +7,9 @@
 #include "motor.h"
 #include "temp.h"
 #include "humidity.h"
-#include "o3sensor.h"
-#include "no2sensor.h"
-#include "so2sensor.h"
+//#include "o3sensor.h"
+//#include "no2sensor.h"
+//#include "so2sensor.h"
 #include "vocsensor.h"
 #include "pmsensor.h"
 #include "commu.h"
@@ -25,8 +25,8 @@
 
 
 //static int plc_cmd_count = 0;
-static int iwdg_count_reload = 1; 
-static int plc_send_to_sensor_count = 0;
+//static int iwdg_count_reload = 1; 
+//static int plc_send_to_sensor_count = 0;
 static int sensor_send_cmd_fan_count = 0;
 //===============================================================
 /*********************************************************************************
@@ -44,21 +44,21 @@ void T1ms_Control(void)
 	 {
 		  t_flag.t1ms_flag=0;
       
-		  if(rs485.iwdg_count_flag == 1)
-			{
-				rs485.iwdg_count_flag = 0;
-				plc_send_to_sensor_count = 0;
-			}
-			
-			if(rs485.iwdg_count_flag_2 == 1)
-			{
-				rs485.iwdg_count_flag_2=0;
-				plc_send_to_sensor_count ++;
-				if(plc_send_to_sensor_count > 12)
-				 {
-					 iwdg_count_reload=0;
-				 }
-			}
+//		  if(rs485.iwdg_count_flag == 1)
+//			{
+//				rs485.iwdg_count_flag = 0;
+//				plc_send_to_sensor_count = 0;
+//			}
+//			
+//			if(rs485.iwdg_count_flag_2 == 1)
+//			{
+//				rs485.iwdg_count_flag_2=0;
+//				plc_send_to_sensor_count ++;
+//				if(plc_send_to_sensor_count > 12)
+//				 {
+//					 iwdg_count_reload=0;
+//				 }
+//			}
 			
 			// Keynum_Process();//
 //		  Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
@@ -82,7 +82,8 @@ void T10ms_Control(void)
 
 		  //Motor_Speed_Process();		 
 
-     Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
+     //Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
+		 USART1_REC_PLC_Process(rs485.data_queue_usart1,rs485.rs485_rx_copy_buf1);
 		 Usart1_Send_To_PLC_Process(rs485.rs485_tx_buf1,29);
 
 	 }	
@@ -103,7 +104,7 @@ void T50ms_Control(void)
 	 if(t_flag.t50ms_flag==1)
 	 {
 		  t_flag.t50ms_flag=0;
-      
+     
 		  //Get_Tmp_Vol_O3_NO2_SO2_Data();	
 		  Usart6_Receive_Fan_Data_Process(rs485.rs485_rx_buf6,RX_BUF_SIZE_TO_FAN, rs485.rs485_rx_copy_buf6);
 	 }	 
@@ -188,10 +189,10 @@ void T500ms_Control(void)
 		  Light_Control();
 		 
 		
-		 if(iwdg_count_reload > 0)//»Ùiwdg_count_reload > 0,‘ÚŒππ∑
-		 {
-			 iwdg_feed();
-		 }
+//		 if(iwdg_count_reload > 0)//»Ùiwdg_count_reload > 0,‘ÚŒππ∑
+//		 {
+//			 iwdg_feed();
+//		 }
 		 
 	 }	 
 }
@@ -330,7 +331,7 @@ void System_Init(void)
 	
 	PM_Sensor_Init();
 	
-	IWDG_Init();//1s
+	//IWDG_Init();//1s
 	
   Motor_Init();
 	

@@ -294,7 +294,7 @@ void Usart1_Receive_PLC_Data_Process(uchar *buf,uchar length,uchar *dest_buf)
 				 {
 					 flag.usart1_success_flag=1;
 					
-					rs485.rx_ok_flag_really=0;
+					 rs485.rx_ok_flag_really=0;
 				 
 					 pc_to_sensor.dev_addr=dest_buf[0];
 					 pc_to_sensor.code=dest_buf[1];
@@ -574,3 +574,45 @@ void Data_Copy_Dest(Sensor_To_PC_Def *s_buf,uchar buf[],uchar length)
 ** 输出参数：无
 ** 备    注：无
 *********************************************************************************/
+void USART1_REC_PLC_Process(uchar buf[],uchar dest_buf[])
+{
+	u16 sum=0;
+	u8 i=0,j=0,k=0;
+	//uchar dest_buf[8]={0};
+	
+	for(i=0;i<MAX_DATA_QUEUE_DEPTH-7;i++)//移位
+	{
+		k=0;
+		for(j=i;j<i+8;j++)//移位
+		{
+			dest_buf[k++] = buf[j];
+		}
+		if((dest_buf[0] == key.code) && (key.code != 0))
+		{
+			sum = Crc16_Modbus(dest_buf,6);
+			if((dest_buf[6]==(u8)(sum >> 8))&&(dest_buf[7] == (u8)sum))
+			{
+				 
+				 pc_to_sensor.dev_addr=dest_buf[0];
+				 pc_to_sensor.code=dest_buf[1];
+				 pc_to_sensor.reg_addr=(u16)dest_buf[2];
+				 pc_to_sensor.reg_addr<<=8;
+				 pc_to_sensor.reg_addr|=(u16)dest_buf[3];
+				 
+				 pc_to_sensor.num=(u16)dest_buf[4];
+				 pc_to_sensor.num<<=8;
+				 pc_to_sensor.num|=dest_buf[5];
+				
+				flag.usart1_success_flag = 1;
+				rs485.rx_ok_flag1=1;//send cmd to fan
+				//flag.usart1_success_reco_flag = 1;
+				memset(rs485.data_queue_usart1,0,MAX_DATA_QUEUE_DEPTH+1);
+				rs485.queue_front_1 = 0;
+				rs485.queue_rear_1 = 0;
+				rs485.rx_ptr1 = 0;
+				break;
+			}
+		}
+	}
+	
+}

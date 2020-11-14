@@ -5,6 +5,7 @@
 #include "key.h"
 #include "iwdg.h"
 #include "light.h"
+#include "commu.h"
 
 //static uint32 plc_count=0;
 /*
@@ -53,6 +54,8 @@ int fputc(int ch, FILE *f)
 #endif
 
 RS485_Def rs485;
+
+
 
 //===============================================================
 /*********************************************************************************
@@ -458,11 +461,6 @@ void Uart1_Put_Word(u8 word[],u8 num)
 void USART1_IRQHandler(void)
 {    
 	
-//		if(USART_GetFlagStatus(USART1, USART_FLAG_PE) != RESET)
-//		{
-//			USART_ReceiveData(USART1);
-//			USART_ClearFlag(USART1, USART_FLAG_PE);
-//		}
 		if (USART_GetFlagStatus(USART1, USART_FLAG_ORE) != RESET)
     {
 				USART_ReceiveData(USART1);
@@ -483,46 +481,48 @@ void USART1_IRQHandler(void)
         USART_ReceiveData(USART1);
         USART_ClearFlag(USART1, USART_FLAG_IDLE);
     }
-//		if(USART_GetITStatus(USART1,USART_FLAG_ORE)!= RESET)//接收到数据
-//	  {
-//			USART_ClearFlag(USART1, USART_FLAG_ORE);
-//			USART_ClearITPendingBit(USART1,USART_FLAG_ORE);
-//		}
-//	
+
 		
 	  if(USART_GetITStatus(USART1,USART_IT_RXNE)!= RESET)//接收到数据
 	  {
        USART_ClearFlag(USART1,USART_FLAG_RXNE);  
        USART_ClearITPendingBit(USART1,USART_IT_RXNE); //清除中断标志.
 			 
-		   rs485.rs485_rx_buf1[rs485.rx_ptr1]=USART_ReceiveData(USART1);//USART1->DR;
+			 enqueue_data_usart1(USART_ReceiveData(USART1));
+			rs485.rx_ptr1++;
+			if(rs485.rx_ptr1>=8)
+			{
+				
+				
+			}
+		  // rs485.rs485_rx_buf1[rs485.rx_ptr1]=USART_ReceiveData(USART1);//USART1->DR;
 			 //iwdg_feed();
-			 if((rs485.rs485_rx_buf1[0]==key.code)&&(key.code!=0))
-			 {				
-					rs485.rx_ptr1++;
-          if(rs485.rx_ptr1>=RX_BUF_SIZE1)
-			     {
-				      rs485.rx_ptr1=0;
-						 rs485.rx_plc_ptr_1 = 0;
-							rs485.rx_ok_flag1=1;//rx_fan_ok_flag1   
-						  rs485.rx_ok_flag_really=1;
-						 rs485.rx_ok_iwdg_flag = 1;
-						 
-					 }	
-					 if(rs485.rx_ptr1>=2)//添加多次判断，防止读命令“03”，对拨码开关为03的板子造成干扰。
-					 {
-							if(rs485.rs485_rx_buf1[1] == 0x00)
-						  {
-						   rs485.rx_ptr1=0;
-						  }
-				   }
-		   }
-			 rs485.rx_plc_ptr_1 ++;
-			 if(rs485.rx_plc_ptr_1 >= RX_BUF_SIZE1)
-			 {
-				 rs485.rx_plc_ptr_1 = 0;
-				 rs485.iwdg_count_flag_2 = 1;
-			 }
+//			 if((rs485.rs485_rx_buf1[0]==key.code)&&(key.code!=0))
+//			 {				
+//					rs485.rx_ptr1++;
+//          if(rs485.rx_ptr1>=RX_BUF_SIZE1)
+//			     {
+//				      rs485.rx_ptr1=0;
+//						 rs485.rx_plc_ptr_1 = 0;
+//							rs485.rx_ok_flag1=1;//rx_fan_ok_flag1   
+//						  rs485.rx_ok_flag_really=1;
+//						 rs485.rx_ok_iwdg_flag = 1;
+//						 
+//					 }	
+//					 if(rs485.rx_ptr1>=2)//添加多次判断，防止读命令“03”，对拨码开关为03的板子造成干扰。
+//					 {
+//							if(rs485.rs485_rx_buf1[1] == 0x00)
+//						  {
+//						   rs485.rx_ptr1=0;
+//						  }
+//				   }
+//		   }
+//			 rs485.rx_plc_ptr_1 ++;
+//			 if(rs485.rx_plc_ptr_1 >= RX_BUF_SIZE1)
+//			 {
+//				 rs485.rx_plc_ptr_1 = 0;
+//				 rs485.iwdg_count_flag_2 = 1;
+//			 }
 	 }  											 
 } 
 
@@ -867,7 +867,7 @@ void USART6_IRQHandler(void)
        USART_ClearFlag(USART6,USART_FLAG_RXNE);  
        USART_ClearITPendingBit(USART6,USART_IT_RXNE); //清除中断标志.
 		
-		   rs485.rs485_rx_buf6[rs485.rx_ptr6]=USART_ReceiveData(USART6);//USART6->DR;
+		   rs485.rs485_rx_buf6[rs485.rx_ptr6]=USART_ReceiveData(USART6);//USART6->DR;//enqueue_data_usart6(USART_ReceiveData(USART6));
 
 		 if((rs485.rs485_rx_buf6[0]==0x07) || (rs485.rs485_rx_buf6[0]==0x08) || (rs485.rs485_rx_buf6[0]==0x09))
 			 {
@@ -884,6 +884,62 @@ void USART6_IRQHandler(void)
 
 }	 
 
+void enqueue_data_usart1(uchar e)
+{
+//		static u16 data_queue[MAX_DATA_QUEUE_DEPTH + 1] = {0};
+		//static u8 queue_front_1 = 0;//队首
+		//static u8 queue_rear_1 = 0;//队尾
+		//u16 temp = 0;
+		
+    if(rs485.queue_front_1 == rs485.queue_rear_1)
+    {
+        rs485.data_queue_usart1[rs485.queue_front_1] = e;
+    }
+    
+    rs485.data_queue_usart1[rs485.queue_rear_1] = e;
+		
+		rs485.queue_rear_1 = (rs485.queue_rear_1 + 1) % (MAX_DATA_QUEUE_DEPTH + 1);//队尾后移1 
+		//如果队列满了 
+		if((rs485.queue_rear_1+1)%(MAX_DATA_QUEUE_DEPTH+1)==rs485.queue_front_1)
+		{
+			//queue_rear_1 = (queue_rear_1 + 1) % (MAX_DATA_QUEUE_DEPTH + 1);//队尾变成队首
+			//temp = data_queue_o3[queue_front_1];//出队
+			
+			//rs485.queue_front_1 =  (rs485.queue_front_1 + 1) % (MAX_DATA_QUEUE_DEPTH+1);
+			rs485.queue_front_1 = 0;
+			rs485.queue_rear_1 = 0;
+			memset(rs485.data_queue_usart1,0,MAX_DATA_QUEUE_DEPTH+1);
+		}
+	
+}
+
+void enqueue_data_usart6(uchar e)
+{
+//		static u16 data_queue[MAX_DATA_QUEUE_DEPTH2 + 1] = {0};
+		//static u8 queue_front_6 = 0;//队首
+		//static u8 queue_rear_6 = 0;//队尾
+		//u16 temp = 0;
+		
+    if(rs485.queue_front_6 == rs485.queue_rear_6)
+    {
+        rs485.data_queue_usart6[rs485.queue_front_6] = e;
+    }
+    
+    rs485.data_queue_usart6[rs485.queue_rear_6] = e;
+		
+		rs485.queue_rear_6 = (rs485.queue_rear_6 + 1) % (MAX_DATA_QUEUE_DEPTH2 + 1);//队尾后移1 
+		//如果队列满了 
+		if((rs485.queue_rear_6+1)%(MAX_DATA_QUEUE_DEPTH2+1)==rs485.queue_front_6)
+		{
+			//queue_rear_6 = (queue_rear_6 + 1) % (MAX_DATA_QUEUE_DEPTH2 + 1);//队尾变成队首
+			
+			//rs485.queue_front_6 =  (rs485.queue_front_6 + 1) % (MAX_DATA_QUEUE_DEPTH2+1);
+			rs485.queue_front_6 = 0;
+			rs485.queue_rear_6 = 0;
+			memset(rs485.data_queue_usart6,0,MAX_DATA_QUEUE_DEPTH2+1);
+		}
+	
+}
 
 
 
