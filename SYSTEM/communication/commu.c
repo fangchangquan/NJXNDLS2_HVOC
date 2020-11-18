@@ -316,43 +316,43 @@ void Usart1_Receive_PLC_Data_Process(uchar *buf,uchar length,uchar *dest_buf)
 函数名:Usart6_Receive_Fan_Data_Process
 函数功能:用于接收风机传回的数据
 */
-void Usart6_Receive_Fan_Data_Process(uchar *buf,uchar length,uchar *dest_buf)
-{
-	
-   if(rs485.rx_ok_flag6==1)
-	 {
-		  memcpy(dest_buf,buf,length);
-		  memset(buf,0,length);
+//void Usart6_Receive_Fan_Data_Process(uchar *buf,uchar length,uchar *dest_buf)
+//{
+//	
+//   if(rs485.rx_ok_flag6==1)
+//	 {
+//		  memcpy(dest_buf,buf,length);
+//		  memset(buf,0,length);
 
-		 if(dest_buf[0] == 0x07)
-		 {
-		
-			 rs485.rx_ok_flag6=0;
-			 
-			 fan_to_sensor.value_7 = (u16)dest_buf[3];
-			 fan_to_sensor.value_7 <<= 8;
-			 fan_to_sensor.value_7 |= (u16)dest_buf[4];
-		 }
-		 if(dest_buf[0] == 0x08)
-		 {
-		
-			 rs485.rx_ok_flag6=0;
+//		 if(dest_buf[0] == 0x07)
+//		 {
+//		
+//			 rs485.rx_ok_flag6=0;
+//			 
+//			 fan_to_sensor.value_7 = (u16)dest_buf[3];
+//			 fan_to_sensor.value_7 <<= 8;
+//			 fan_to_sensor.value_7 |= (u16)dest_buf[4];
+//		 }
+//		 if(dest_buf[0] == 0x08)
+//		 {
+//		
+//			 rs485.rx_ok_flag6=0;
 
-			 fan_to_sensor.value_8 = (u16)dest_buf[3];
-			 fan_to_sensor.value_8 <<= 8;
-			 fan_to_sensor.value_8 |= (u16)dest_buf[4];
-		 }
-		 if(dest_buf[0] == 0x09)
-		 {
-		
-			 rs485.rx_ok_flag6=0;
-			 
-			 fan_to_sensor.value_9 = (u16)dest_buf[3];
-			 fan_to_sensor.value_9 <<= 8;
-			 fan_to_sensor.value_9 |= (u16)dest_buf[4];
-		 }	
-		}	 
-}
+//			 fan_to_sensor.value_8 = (u16)dest_buf[3];
+//			 fan_to_sensor.value_8 <<= 8;
+//			 fan_to_sensor.value_8 |= (u16)dest_buf[4];
+//		 }
+//		 if(dest_buf[0] == 0x09)
+//		 {
+//		
+//			 rs485.rx_ok_flag6=0;
+//			 
+//			 fan_to_sensor.value_9 = (u16)dest_buf[3];
+//			 fan_to_sensor.value_9 <<= 8;
+//			 fan_to_sensor.value_9 |= (u16)dest_buf[4];
+//		 }	
+//		}	 
+//}
 
 //===============================================================
 /*********************************************************************************
@@ -606,8 +606,8 @@ void USART1_REC_PLC_Process(uchar buf[],uchar dest_buf[])
 				flag.usart1_success_flag = 1;
 				rs485.rx_ok_flag1=1;//send cmd to fan
 				//flag.usart1_success_reco_flag = 1;
-				memset(rs485.data_queue_usart1,0,MAX_DATA_QUEUE_DEPTH+1);
-				rs485.queue_front_1 = 0;
+				memset(rs485.data_queue_usart1,0,MAX_DATA_QUEUE_DEPTH+1);//若移位识别到命令，则清空队列
+				rs485.queue_front_1 = 0;//队列的头，尾均重置，重新开始接收
 				rs485.queue_rear_1 = 0;
 				rs485.rx_ptr1 = 0;
 				break;
