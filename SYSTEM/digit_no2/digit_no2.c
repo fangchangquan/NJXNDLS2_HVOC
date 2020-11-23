@@ -18,7 +18,7 @@ uchar D_NO2_SUM_CHECK(uchar buf[],uchar n)
 	
 }
  
-void D_NO2_Recieve_Data(uchar buf[],uchar n)
+void D_NO2_Recieve_Data(uchar buf[],uchar n)//串口收到数据才会执行此函数
 {
 	u8 check_n=0;
 	if(n<=D_NO2_SIZE)
@@ -39,6 +39,7 @@ void D_NO2_Recieve_Data(uchar buf[],uchar n)
 			memcpy(sensor.no2.no2_buf,no2_buffer,n);
 		}
 	}
+	//memset(no2_buffer,0,D_NO2_SIZE);//清空
 }
 
 void D_NO2_Data_Process(void)
@@ -46,6 +47,7 @@ void D_NO2_Data_Process(void)
 	sensor.no2.no2_ug = sensor.no2.no2_buf[2];
 	sensor.no2.no2_ug <<= 8;
 	sensor.no2.no2_ug |= sensor.no2.no2_buf[3];
+	memset(sensor.no2.no2_buf,0,D_NO2_SIZE);
 }
 
 

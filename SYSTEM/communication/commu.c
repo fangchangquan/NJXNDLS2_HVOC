@@ -464,17 +464,18 @@ void Usart1_Send_Data_Process(PC_To_Sensor_Def *buf,Sensor_To_PC_Def *dest_buf)
 		  Hex_To_Group(sensor.hum.hum_now,dest_buf->data_buf,2,SENSOR_SIZE);
 		  Hex_To_Group(sensor.press.press_now,dest_buf->data_buf,4,SENSOR_SIZE);
 		 
-		  Hex_To_Group(sensor.pm.pm2_now,dest_buf->data_buf,6,SENSOR_SIZE);	//PM2.5 
-		  Hex_To_Group(fan_to_sensor.value_7,dest_buf->data_buf,8,SENSOR_SIZE);//fan_7 speed
-		  Hex_To_Group(fan_to_sensor.value_8,dest_buf->data_buf,10,SENSOR_SIZE);//fan_8 speed
-		  Hex_To_Group(fan_to_sensor.value_9,dest_buf->data_buf,12,SENSOR_SIZE);//fan_9 speed
+		  Hex_To_Group(sensor.pm.pm1_now,dest_buf->data_buf,6,SENSOR_SIZE);	//PM1.0
+		  Hex_To_Group(sensor.pm.pm2_now,dest_buf->data_buf,8,SENSOR_SIZE);// PM2.5
+		  Hex_To_Group(sensor.pm.pm10_now,dest_buf->data_buf,10,SENSOR_SIZE);//PM10
+		  Hex_To_Group(fan_to_sensor.value_7,dest_buf->data_buf,12,SENSOR_SIZE);//fan_7 speed
 		 
-		  Hex_To_Group(sensor.o3.o3_now,dest_buf->data_buf,14,SENSOR_SIZE);
+		  Hex_To_Group(fan_to_sensor.value_8,dest_buf->data_buf,14,SENSOR_SIZE);//fan_8 speed
 		    //Hex_To_Group(sensor.o3.o3_ug,dest_buf->data_buf,14,SENSOR_SIZE);
-		  Hex_To_Group(sensor.so2.so2_now,dest_buf->data_buf,16,SENSOR_SIZE);
+		  Hex_To_Group(fan_to_sensor.value_9,dest_buf->data_buf,16,SENSOR_SIZE);//fan_9 speed
 		    //Hex_To_Group(sensor.so2.so2_ug,dest_buf->data_buf,16,SENSOR_SIZE);
 		  Hex_To_Group(sensor.no2.no2_ug,dest_buf->data_buf,18,SENSOR_SIZE);
 		    //Hex_To_Group(sensor.no2.no2_ug,dest_buf->data_buf,18,SENSOR_SIZE);
+		 
 		 
 		  Hex_To_Group(sensor.motor_speed.speed,dest_buf->data_buf,20,SENSOR_SIZE);
 		 
@@ -495,7 +496,9 @@ void Usart1_Send_Data_Process(PC_To_Sensor_Def *buf,Sensor_To_PC_Def *dest_buf)
 		  dest_buf->crc=Crc16_Modbus(group,SENSOR_SIZE+3);
 		 
 		  sensor.sen_buf_length=SENSOR_SIZE+5;
-
+//			fan_to_sensor.value_7=0;
+//		  fan_to_sensor.value_8=0;
+//		  fan_to_sensor.value_9=0;
 	 }
 	 
 }
@@ -621,6 +624,7 @@ void USART6_Receive_Fan_Data_Process(uchar buf[],uchar length,uchar dest_buf[])
 {
 	u16 sum=0;
 	u8 i,j,k;
+			
 	for(i=0;i<MAX_DATA_QUEUE_DEPTH2-6;i++)
 	{
 		k=0;
@@ -636,9 +640,13 @@ void USART6_Receive_Fan_Data_Process(uchar buf[],uchar length,uchar dest_buf[])
 				fan_to_sensor.value_7 = (u16)dest_buf[3];
 				fan_to_sensor.value_7 <<= 8;
 				fan_to_sensor.value_7 |= (u16)dest_buf[4];
+				memset(rs485.data_queue_usart6,0,MAX_DATA_QUEUE_DEPTH2+1);//若移位识别到命令，则清空队列
+				rs485.queue_front_6 = 0;//队列的头，尾均重置，重新开始接收
+				rs485.queue_rear_6 = 0;
+				break;
 			}
 		}
-		if(dest_buf[0] == 0x08)
+		else if(dest_buf[0] == 0x08)
 		{
 			sum = Crc16_Modbus(dest_buf,5);
 			if((dest_buf[5] == (u8)(sum >> 8))&& (dest_buf[6]== (u8)sum))
@@ -646,9 +654,14 @@ void USART6_Receive_Fan_Data_Process(uchar buf[],uchar length,uchar dest_buf[])
 				fan_to_sensor.value_8 = (u16)dest_buf[3];
 				fan_to_sensor.value_8 <<= 8;
 				fan_to_sensor.value_8 |= (u16)dest_buf[4];
+				
+				memset(rs485.data_queue_usart6,0,MAX_DATA_QUEUE_DEPTH2+1);//若移位识别到命令，则清空队列
+				rs485.queue_front_6 = 0;//队列的头，尾均重置，重新开始接收
+				rs485.queue_rear_6 = 0;
+				break;
 			}
 		}
-		if(dest_buf[0] == 0x09)
+		else if(dest_buf[0] == 0x09)
 		{
 			sum = Crc16_Modbus(dest_buf,5);
 			if((dest_buf[5] == (u8)(sum >> 8))&& (dest_buf[6]== (u8)sum))
@@ -656,7 +669,18 @@ void USART6_Receive_Fan_Data_Process(uchar buf[],uchar length,uchar dest_buf[])
 				fan_to_sensor.value_9 = (u16)dest_buf[3];
 				fan_to_sensor.value_9 <<= 8;
 				fan_to_sensor.value_9 |= (u16)dest_buf[4];
+				
+				memset(rs485.data_queue_usart6,0,MAX_DATA_QUEUE_DEPTH2+1);//若移位识别到命令，则清空队列
+				rs485.queue_front_6 = 0;//队列的头，尾均重置，重新开始接收
+				rs485.queue_rear_6 = 0;
+				break;
 			}
 		}
+//		else
+//		{
+//			fan_to_sensor.value_7=0;
+//		  fan_to_sensor.value_8=0;
+//		  fan_to_sensor.value_9=0;
+//		}
 	}
 }

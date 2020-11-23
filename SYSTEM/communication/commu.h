@@ -52,7 +52,12 @@ typedef struct                         //风机发到传感器板 例如：
     u8  length;            		         /* 个数      */
     u16  value_7; 	
 		u16  value_8; 
-		u16  value_9; 	//寄存器的值         
+		u16  value_9; 	//寄存器的值   
+		
+		u16  value_7_buf; 	
+		u16  value_8_buf; 
+		u16  value_9_buf; 	//寄存器的值
+	
 	  u8   crc;               	         /* CRC       		    10          1B */
 }FAN_To_Sensor_Def ;  
 
@@ -111,6 +116,7 @@ void Data_Copy_Dest(Sensor_To_PC_Def *s_buf,uchar buf[],uchar length);
 void USART1_REC_PLC_Process(uchar buf[],uchar dest_buf[]);
 void USART6_Receive_Fan_Data_Process(uchar buf[],uchar length,uchar dest_buf[]);
 
+//void FAN_SPEED_DATA(void);
 
 
 

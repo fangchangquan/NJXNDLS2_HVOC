@@ -70,6 +70,7 @@ uchar SUM_CHECK_VOC(uchar buf[],uchar n)
 		//sensor.voc.voc_now<<=8;
 		sensor.voc.voc_ppm|=sensor.voc.voc_buf[7];
 		//sensor.voc.voc_now|=sensor.voc.voc_buf[2];
+	 memset(sensor.voc.voc_buf,0,VOC_SIZE);
 	 
  }
 //===============================================================

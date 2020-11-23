@@ -82,8 +82,9 @@ void T10ms_Control(void)
 
 		  //Motor_Speed_Process();		 
 
-     //Usart1_Receive_PLC_Data_Process(rs485.rs485_rx_buf1,RX_BUF_SIZE1, rs485.rs485_rx_copy_buf1);
 		 USART1_REC_PLC_Process(rs485.data_queue_usart1,rs485.rs485_rx_copy_buf1);
+		 
+		 //FAN_SPEED_DATA();
 		 Usart1_Send_To_PLC_Process(rs485.rs485_tx_buf1,29);
 
 	 }	
@@ -105,8 +106,6 @@ void T50ms_Control(void)
 	 {
 		  t_flag.t50ms_flag=0;
      
-		  //Get_Tmp_Vol_O3_NO2_SO2_Data();	
-//		  Usart6_Receive_Fan_Data_Process(rs485.rs485_rx_buf6,RX_BUF_SIZE_TO_FAN, rs485.rs485_rx_copy_buf6);
 		 USART6_Receive_Fan_Data_Process(rs485.data_queue_usart6,RX_BUF_SIZE_TO_FAN, rs485.rs485_rx_copy_buf6);
 	 }	 
 }
@@ -234,9 +233,7 @@ void T1_5s_Control(void)//1.2S
 	{
 		t_flag.t1_5s_flag = 0;
 		
-		D_NO2_Data_Process();
-		VOC_Receive_Data_Process();
-		
+				
 	}
 }
 //===============================================================
@@ -254,9 +251,9 @@ void T5s_Control(void)
 	 {
 		  t_flag.t5s_flag=0;
 		 D_NO2_SEND_CMD_TO_SENSOR(rs485.rs485_tx_buf3,TX_BUF_SIZE3);//发送指令  
-
+		 D_NO2_Data_Process();
 		 VOC_Send_Cmd(rs485.rs485_tx_buf2,TX_BUF_SIZE2);//查询VOC数据 
-		 
+		 VOC_Receive_Data_Process();
 
 	 }	 
 }
