@@ -496,9 +496,9 @@ void Usart1_Send_Data_Process(PC_To_Sensor_Def *buf,Sensor_To_PC_Def *dest_buf)
 		  dest_buf->crc=Crc16_Modbus(group,SENSOR_SIZE+3);
 		 
 		  sensor.sen_buf_length=SENSOR_SIZE+5;
-//			fan_to_sensor.value_7=0;
-//		  fan_to_sensor.value_8=0;
-//		  fan_to_sensor.value_9=0;
+			fan_to_sensor.value_7=0;
+		  fan_to_sensor.value_8=0;
+		  fan_to_sensor.value_9=0;
 	 }
 	 
 }
