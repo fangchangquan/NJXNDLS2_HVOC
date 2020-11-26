@@ -160,23 +160,23 @@ void PM_Receive_Data_Process(void)
 					                            rec_temp=Get_More_Data(pm.pm_data_buf,0,PM_DATA_SIZE);
 				                              if(rec_temp!=0)
 																			{
-																				 pm.pm1_data=rec_temp;
-																				 sensor.pm.pm1_now=pm.pm1_data;
+																				 pm.pm1_data=rec_temp*7;
+																				 sensor.pm.pm1_now=pm.pm1_data/10;//0.7±¶
 																				 
 																			}
 																			
 																			rec_temp=Get_More_Data(pm.pm_data_buf,4,PM_DATA_SIZE);
 				                              if(rec_temp!=0)
 																			{
-																				 pm.pm2_data=rec_temp;
-																				 sensor.pm.pm2_now=pm.pm2_data;
+																				 pm.pm2_data=rec_temp*7;
+																				 sensor.pm.pm2_now=pm.pm2_data/10;//0.7±¶
 																			}
 																			
 																			rec_temp=Get_More_Data(pm.pm_data_buf,8,PM_DATA_SIZE);
 				                              if(rec_temp!=0)
 																			{
-																				 pm.pm10_data=rec_temp;
-																				 sensor.pm.pm10_now=pm.pm10_data;
+																				 pm.pm10_data=rec_temp*7;
+																				 sensor.pm.pm10_now=pm.pm10_data/10;//0.7±¶
 																			}
 					                            
 																			rec_temp=Get_More_Data(pm.pm_data_buf,12,PM_DATA_SIZE);
